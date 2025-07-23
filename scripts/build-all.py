@@ -17,7 +17,6 @@ DEFAULT_CHANNELS = [
     "https://prefix.dev/modular-community",
 ]
 
-
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build all recipes.")
     parser.add_argument(
