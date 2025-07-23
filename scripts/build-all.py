@@ -3,6 +3,7 @@ from datetime import datetime
 import argparse
 from scripts.common import (
     load_failed_compatibility,
+    recipe_name_collisions,
     run_command_unchecked,
     save_failed_compatibility,
     eprint,
@@ -16,6 +17,7 @@ DEFAULT_CHANNELS = [
     "https://conda.modular.com/max",
     "https://prefix.dev/modular-community",
 ]
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build all recipes.")
@@ -41,11 +43,22 @@ def main() -> None:
     )
 
     exit_code = 0
+    default_channels_without_community = [
+        c for c in DEFAULT_CHANNELS if c != "modular-community"
+    ]
 
     for recipe_dir in base_dir.iterdir():
         recipe_file = recipe_dir / "recipe.yaml"
         if not recipe_file.is_file():
             eprint(f"{recipe_dir} doesn't contain recipe.yaml")
+            continue
+
+        if recipe_name_collisions(
+            recipe_file, channels=default_channels_without_community
+        ):
+            eprint(
+                f"SKIPPING: {recipe_file} specifies a recipe whose name collides with another conda package in {default_channels_without_community}."
+            )
             continue
 
         command = [
