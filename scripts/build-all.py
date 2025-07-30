@@ -12,11 +12,9 @@ import sys
 import os
 
 # Channels are in priority order
-DEFAULT_CHANNELS = [
-    "conda-forge",
-    "https://conda.modular.com/max",
-    "https://prefix.dev/modular-community",
-]
+MODULAR_COMMUNITY_CHANNEL = "https://prefix.dev/modular-community"
+MAX_CHANNEL = "https://conda.modular.com/max"
+DEFAULT_CHANNELS = ["conda-forge", MAX_CHANNEL, MODULAR_COMMUNITY_CHANNEL]
 
 
 def main() -> None:
@@ -44,7 +42,7 @@ def main() -> None:
 
     exit_code = 0
     default_channels_without_community = [
-        c for c in DEFAULT_CHANNELS if c != "modular-community"
+        c for c in DEFAULT_CHANNELS if c != MODULAR_COMMUNITY_CHANNEL
     ]
 
     for recipe_dir in base_dir.iterdir():
