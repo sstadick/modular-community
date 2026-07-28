@@ -1,5 +1,2 @@
-{
-    "lambda_runtime": {
-        "failed_at": "2026-07-27T18:26:34.496708"
-    }
-}
+lambda_runtime:
+  failed_at: '2026-07-27T18:26:34.496708'
